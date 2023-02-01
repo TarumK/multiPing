@@ -12,12 +12,14 @@
     margin-right: 5px; /* Отступ слева */
 <!--    border: 1px solid #000; /* Рамка вокруг текста */-->
     padding: 3px; /* Поля вокруг текста */
+     background: #BABCBC;
    }
  </style>
 <!-- Конец блока стиля для шапки и главного меню //-->
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/admin/css/base.css">
+
     <title>Aнализатор и диагностика локальной сети</title>
 </head>
 <body>
@@ -33,11 +35,14 @@
 </div>
 <!-- Конец шапки и меню//-->
 <hr>
-<!-- Начало формы выбора параметров для запуска диагностики //-->
+<table width="100%">
+    <tr>
+        <td>
+<!-- Начало блока выбора параметров для запуска диагностики //-->
 <div align="left">
 <form>
     {% csrf_token %}
-  <select size="10" multiple id="server-select">
+  <select size="14" multiple id="server-select">
     {% for server in servers %}
       <option value="{{ server.id }}">{{ server.name }}</option>
     {% endfor %}
@@ -54,10 +59,27 @@
   <input type="submit" name="submit" value="Запуск теста">
 </form>
 </div>
-<!-- Конец блока формы выбора параметров для запуска диагностики //-->
+        </td>
+<!-- Конец блока выбора параметров для запуска диагностики //-->
 
 <!-- Отображение таблицы логов //-->
+        <td>
 
+    <table>
+        <tr>
+            <th>Время</th>
+            <th>Хост</th>
+            <th>Ср. время отклика</th>
+            <th>Пакетов отправлено</th>
+            <th>Пакетов получено</th>
+            <th>Пакетов потеряно</th>
+            <th>Процент потерь</th>
+        </tr>
+    </table>
+
+        </td>
+    </tr>
+</table>
 <!-- Конец отображения таблицы логов //-->
 
 <script>
@@ -85,6 +107,8 @@
   });
 
 </script>
-
+<h4>
+<footer><center>NetDiags: диагностика локальной сети, ver. 0.1</center></footer>
+</h4>
 </body>
 </html>

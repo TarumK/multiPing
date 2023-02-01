@@ -20,5 +20,10 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('ping/', views.ping, name='ping' )
+    path('go_ping/', views.go_ping, name='go_ping'),
 ]
+
+
+admin.site.site_header = 'Панель администратора'
+admin.site.site_title = 'Админка'
+admin.site.index_title = 'Добро пожаловать в интерфейс администратора!'

@@ -1,22 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<!-- Стиль для шапки и главного меню //-->
+ <style>
+   ul.hr {
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+   }
+   ul.hr li {
+    display: inline; /* Вытянуть пункты главного меню в горизонтальную строку в ряд */
+    margin-right: 5px; /* Отступ слева */
+<!--    border: 1px solid #000; /* Рамка вокруг текста */-->
+    padding: 3px; /* Поля вокруг текста */
+   }
+ </style>
+<!-- Конец блока стиля для шапки и главного меню //-->
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="/static/admin/css/base.css">
+    <title>Aнализатор и диагностика локальной сети</title>
 </head>
 <body>
+<!-- Шапка сайта и меню//-->
+<center><h2>NetDiags: диагностика локальной сети</h2></center>
+<hr>
+<div align="right">
+<ul class="hr">
+    <li><a href="/about/">[О сервисе]</a></li>
+    <li><a href="/feedback/">[Обратная связь]</a></li>
+    <li><a href="/admin/">[Вход в админку] </a></li>
+</ul>
+</div>
+<!-- Конец шапки и меню//-->
+<hr>
+<!-- Начало формы выбора параметров для запуска диагностики //-->
+<div align="left">
 <form>
     {% csrf_token %}
-  <select multiple id="server-select">
+  <select size="10" multiple id="server-select">
     {% for server in servers %}
       <option value="{{ server.id }}">{{ server.name }}</option>
     {% endfor %}
   </select>
-  <button type="submit">Submit</button>
+<br>
+всего пакетов
+<br>
+<input size="3" type="text" name="count" value="100">
+<br>
+размер пакетов
+<br>
+<input size="3" type="text" name="count" value="100">
+<br>
+  <input type="submit" name="submit" value="Запуск теста">
 </form>
+</div>
+<!-- Конец блока формы выбора параметров для запуска диагностики //-->
+
+<!-- Отображение таблицы логов //-->
+
+<!-- Конец отображения таблицы логов //-->
 
 <script>
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+<!--  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;-->
   const select = document.querySelector("#server-select");
   const form = select.closest("form");
 
@@ -29,7 +74,7 @@
     }
     console.log("hostList:", hostList);
 
-    fetch("/ping/", {
+    fetch("/go_ping/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

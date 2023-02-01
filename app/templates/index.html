@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    {% csrf_token %}
+  <select multiple id="server-select">
+    {% for server in servers %}
+      <option value="{{ server.id }}">{{ server.name }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const select = document.querySelector("#server-select");
+  const form = select.closest("form");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const hostList = [];
+    for (const option of select.selectedOptions) {
+      hostList.push(option.text);
+    }
+    console.log("hostList:", hostList);
+
+    fetch("/ping/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      body: JSON.stringify({ hostList: hostList })
+    });
+  });
+
+</script>
+
+</body>
+</html>
